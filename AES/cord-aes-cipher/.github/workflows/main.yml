@@ -1,0 +1,61 @@
+name: Build & Run (x86-64 with AES-NI)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-matrix:
+    name: Build on ${{ matrix.target }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [ x86_64 ]
+
+    continue-on-error: ${{ contains('armv8 cortex-a53', matrix.target) }}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y gcc
+
+    - name: Build for ${{ matrix.target }}
+      run: |
+        case "${{ matrix.target }}" in
+          software)
+            gcc -I includes/ -c main.c -o main.o
+            gcc -I includes/ -c src/aes_cipher.c -o aes_cipher.o
+            gcc -I includes/ -c src/aes_helpers.c -o aes_helpers.o
+            gcc -o main main.o aes_cipher.o aes_helpers.o
+            ;;
+          armv8)
+            echo "⚠️ ARMv8 build requires cross-compiler. Trying to build, may fail..."
+            gcc -I includes/ -march=armv8-a+crypto -c main.c -o main.o
+            gcc -I includes/ -march=armv8-a+crypto -c src/aes_cipher.c -o aes_cipher.o
+            gcc -I includes/ -march=armv8-a+crypto -c src/aes_helpers.c -o aes_helpers.o
+            gcc -march=armv8-a+crypto -o main main.o aes_cipher.o aes_helpers.o
+            ;;
+          cortex-a53)
+            echo "⚠️ Cortex-A53 build requires cross-compiler. Trying to build, may fail..."
+            gcc -I includes/ -mcpu=cortex-a53+crypto -c main.c -o main.o
+            gcc -I includes/ -mcpu=cortex-a53+crypto -c src/aes_cipher.c -o aes_cipher.o
+            gcc -I includes/ -mcpu=cortex-a53+crypto -c src/aes_helpers.c -o aes_helpers.o
+            gcc -mcpu=cortex-a53+crypto -o main main.o aes_cipher.o aes_helpers.o
+            ;;
+          x86_64)
+            gcc -I includes/ -march=native -msse2 -maes -c main.c -o main.o
+            gcc -I includes/ -march=native -msse2 -maes -c src/aes_cipher.c -o aes_cipher.o
+            gcc -I includes/ -march=native -msse2 -maes -c src/aes_helpers.c -o aes_helpers.o
+            gcc -march=native -msse2 -maes -o main main.o aes_cipher.o aes_helpers.o
+            ;;
+        esac
+
+    - name: Run example (Optional)
+      if: matrix.target == 'software' || matrix.target == 'x86_64'
+      run: ./main
