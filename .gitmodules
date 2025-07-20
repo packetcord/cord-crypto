@@ -1,0 +1,3 @@
+[submodule "AES/cord-aes-cipher"]
+	path = AES/cord-aes-cipher
+	url = https://github.com/packetcord/cord-aes-cipher.git
