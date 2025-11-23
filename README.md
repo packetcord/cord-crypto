@@ -1,4 +1,4 @@
-# 🔐 CORD-CRYPTO
+# CORD-CRYPTO
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Build System](https://img.shields.io/badge/Build-CMake-brightgreen.svg)](https://cmake.org/)
@@ -10,11 +10,11 @@ CORD-CRYPTO is the cryptographic component of the [PacketCord.io](https://github
 
 ---
 
-## 🧩 Components
+## Components
 
-### ✅ Implemented Components
+### Implemented Components
 
-#### 🔒 AES Cipher Implementation
+#### AES Cipher Implementation
 **[cord-aes-cipher](https://github.com/packetcord/cord-aes-cipher)** - Hardware-accelerated AES encryption
 
 - **AES-128/192/256** support with configurable key lengths
@@ -23,21 +23,21 @@ CORD-CRYPTO is the cryptographic component of the [PacketCord.io](https://github
 - **Embedded-friendly** with configurable memory usage
 - **Cross-platform** design for servers to microcontrollers
 
-### 🚧 Planned Components
+### Planned Components
 
-#### 🔐 Cipher Modes
+#### Cipher Modes
 - **AES-CBC** - Cipher Block Chaining mode
 - **AES-CTR** - Counter mode for stream-like encryption  
 - **AES-ECB** - Electronic Codebook mode
 - **AES-GCM** - Galois/Counter Mode with authentication
 
-#### 🌊 Stream Ciphers
+#### Stream Ciphers
 - **ChaCha20** - Modern stream cipher
 - **ChaCha20-Poly1305** - Authenticated encryption
 
 ---
 
-## 🔗 Related Projects
+## Related Projects
 
 CORD-CRYPTO is part of the **[PacketCord.io](https://github.com/packetcord/packetcord.io)** framework, which comprises three main components:
 
@@ -48,7 +48,7 @@ CORD-CRYPTO is part of the **[PacketCord.io](https://github.com/packetcord/packe
 
 ---
 
-## 🛠️ Build Instructions
+## Build Instructions
 
 ### Prerequisites
 - **CMake** 3.16 or higher
@@ -72,25 +72,7 @@ gcc -I includes/ -o main main.c src/aes_cipher.c src/aes_helpers.c
 
 ---
 
-## 📁 Repository Structure
-
-```
-cord-crypto/
-├── CMakeLists.txt                # Main build configuration
-├── README.md                     # This file
-├── AES/                         # AES cipher modes (planned)
-│   ├── CBC/                     # Cipher Block Chaining
-│   ├── CTR/                     # Counter mode
-│   ├── ECB/                     # Electronic Codebook
-│   ├── GCM/                     # Galois/Counter Mode
-│   └── cord-aes-cipher/         # Core AES implementation
-├── ChaCha/                      # ChaCha20 implementation (planned)
-└── Makefile/                    # Build utilities
-```
-
----
-
-## 📄 License
+## License
 
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
 
